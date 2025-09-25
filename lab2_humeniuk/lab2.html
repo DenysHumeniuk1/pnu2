@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <title>Лабораторна №2 — Варіант 2</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 18px; line-height:1.5; }
+    section { border:1px solid #ddd; padding:12px; margin:12px 0; border-radius:8px; }
+    label { display:inline-block; width:160px; }
+    input[type="text"] { padding:4px; width:220px; }
+    .calc-buttons button { width:48px; height:40px; margin:4px; }
+    table { border-collapse: collapse; margin-top:10px; }
+    td, th { border:1px solid #ccc; padding:6px; text-align:center; }
+  </style>
+</head>
+<body>
+
+  <h1>Лабораторна робота №2 — Варіант 2</h1>
+  <p>Завдання: реалізація годинника (формат: <code>year:month:day:hour:min:sec</code>), калькулятора, побудова матриці та приклади console().</p>
+
+  <section id="task1">
+    <h2>Завдання 1 — Годинник</h2>
+    <div>
+      <label>Поточний час (формат):</label>
+      <input type="text" id="clockDisplay" readonly />
+    </div>
+    <p>Формат відповідає варіанту 2: <code>YYYY:MM:DD:HH:MM:SS</code></p>
+  </section>
+
+  <section id="task2">
+    <h2>Завдання 2 — Калькулятор</h2>
+    <input type="text" id="calcDisplay" placeholder="0" readonly style="width:260px;"/>
+    <div class="calc-buttons">
+      <div style="margin-top:8px;">
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button onclick="press('/')">/</button>
+      </div>
+      <div>
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button onclick="press('*')">*</button>
+      </div>
+      <div>
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button onclick="press('-')">-</button>
+      </div>
+      <div>
+        <button onclick="press('0')">0</button>
+        <button onclick="press('.')">.</button>
+        <button onclick="calcResult()">=</button>
+        <button onclick="press('+')">+</button>
+      </div>
+      <div style="margin-top:8px;">
+        <button onclick="clearCalc()">C</button>
+        <button onclick="backspace()">←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="task3">
+    <h2>Завдання 3 — Матриця (підрахунок суми 2-го рядка)</h2>
+    <div>
+      <label for="rows">Кількість рядків:</label>
+      <input id="rows" type="text" value="4" />
+    </div>
+    <div>
+      <label for="cols">Кількість стовпців:</label>
+      <input id="cols" type="text" value="5" />
+    </div>
+    <div style="margin-top:8px;">
+      <button onclick="buildMatrix()">Побудувати матрицю</button>
+      <button onclick="calculateSecondRowSum()">Розрахувати суму 2-го рядка</button>
+    </div>
+    <div id="matrixContainer"></div>
+    <div id="matrixReport" style="margin-top:10px; font-weight:600;"></div>
+    <p style="margin-top:6px">Заповнення елементів: послідовні числа, починаючи з 1 (рядки зверху). Це дає однозначний результат для суми 2-го рядка.</p>
+  </section>
+
+  <section id="task4">
+    <h2>Завдання 4 &amp; 5 — Приклади роботи консольних методів</h2>
+    <p>Відкрий консоль (F12 → Console) і подивись повідомлення, які виводить скрипт.</p>
+    <button onclick="runConsoleExamples()">Запустити console-приклади</button>
+    <div id="consoleNote" style="margin-top:8px; color:#666;">(Повідомлення з'являться в DevTools → Console)</div>
+  </section>
+
+<script>
+
+function pad(n){ return (n<10 ? '0'+n : n); }
+
+function updateClock(){
+  const now = new Date();
+  const Y = now.getFullYear();
+  const M = pad(now.getMonth()+1);
+  const D = pad(now.getDate());
+  const H = pad(now.getHours());
+  const Min = pad(now.getMinutes());
+  const S = pad(now.getSeconds());
+
+  const str = `${Y}:${M}:${D}:${H}:${Min}:${S}`;
+  document.getElementById('clockDisplay').value = str;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+let calcExpr = '';
+
+function press(ch){
+  calcExpr += ch;
+  document.getElementById('calcDisplay').value = calcExpr;
+}
+
+function clearCalc(){
+  calcExpr = '';
+  document.getElementById('calcDisplay').value = '';
+}
+
+function backspace(){
+  calcExpr = calcExpr.slice(0, -1);
+  document.getElementById('calcDisplay').value = calcExpr;
+}
+
+function calcResult(){
+  try {
+    const res = eval(calcExpr);
+    document.getElementById('calcDisplay').value = String(res);
+    calcExpr = String(res);
+  } catch (e) {
+    alert('Помилка в виразі');
+  }
+}
+
+let currentRows = 0, currentCols = 0;
+
+function buildMatrix(){
+  const r = parseInt(document.getElementById('rows').value) || 0;
+  const c = parseInt(document.getElementById('cols').value) || 0;
+  currentRows = r; currentCols = c;
+  if(r <= 0 || c <=0){ alert('Введи додатні числа для рядків і стовпців'); return; }
+
+  let html = '<table><tbody>';
+  let counter = 1;
+  for(let i=1;i<=r;i++){
+    html += '<tr>';
+    for(let j=1;j<=c;j++){
+      html += `<td><input type="text" id="cell_${i}_${j}" value="${counter}" style="width:60px;"></td>`;
+      counter++;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('matrixContainer').innerHTML = html;
+  document.getElementById('matrixReport').textContent = '';
+}
+
+function calculateSecondRowSum(){
+  if(currentRows < 2){ alert('Матриця має бути щонайменше 2 рядки щоб обчислити суму 2-го рядка'); return; }
+  let sum = 0;
+  for(let j=1;j<=currentCols;j++){
+    const el = document.getElementById(`cell_2_${j}`);
+    if(!el) continue;
+    const v = parseFloat(el.value) || 0;
+    sum += v;
+  }
+  document.getElementById('matrixReport').textContent = `Сума 2-го рядка = ${sum}`;
+}
+
+function runConsoleExamples(){
+  console.clear();
+
+  let a = 17, b = 5;
+  let remainder = a % b;
+  console.log("Остача від %d ÷ %d = %d", a, b, remainder);
+
+  console.log("Чи остача від ділення %d на %d дорівнює нулю? -> %s", a, b, remainder === 0);
+
+  let arr = [10, 20, 30];
+  console.log("Значення масиву: %d, %d, %d", arr[0], arr[1], arr[2]);
+  console.log("Перший елемент масиву як рядок: %s", String(arr[0]));
+
+  console.info("Це console.info() - інформаційне повідомлення");
+  console.warn("Це console.warn() - попередження");
+  console.error("Це console.error() - помилка (приклад)");
+  console.dir({name: "Alice", age: 23, skills: ["js","html"]});
+
+  console.dirxml(document.getElementById('task1'));
+
+  console.time('loopTimer');
+  let s = 0;
+  for(let i=0;i<1000000;i++){ s += i; }
+  console.timeEnd('loopTimer');
+
+  console.assert(remainder === 0, "assert: очікується що remainder === 0, але це не так (значення: %d)", remainder);
+
+  if (console.profile) {
+    console.profile('myProfile');
+    for(let i=0;i<10000;i++) { Math.sqrt(i); }
+    console.profileEnd('myProfile');
+  } else {
+    console.log("console.profile не підтримується цим браузером.");
+  }
+
+  console.log("Всі console-приклади виведені. Перевір консоль DevTools.");
+}
+</script>
+
+</body>
+</html>
