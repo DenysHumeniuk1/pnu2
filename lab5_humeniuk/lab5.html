@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лабораторна робота 5</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #222;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark {
+  background-color: #222;
+  color: #f0f0f0;
+}
+
+nav {
+  background-color: #444;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav .logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+}
+
+@media (max-width: 600px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background-color: #333;
+    width: 100%;
+  }
+  nav ul.active {
+    display: flex;
+  }
+  .burger {
+    display: flex;
+  }
+}
+
+button.theme-toggle {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button.theme-toggle:hover {
+  background-color: #0056b3;
+}
+
+.tabbed_box {
+  width: 300px;
+  margin: 40px auto;
+  background-color: #636d76;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.tabbed_box h4 {
+  font-size: 20px;
+  color: white;
+  margin: 0 0 10px;
+}
+
+ul.tabs {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+}
+
+ul.tabs li {
+  list-style: none;
+}
+
+ul.tabs li a {
+  background-color: #464c54;
+  color: #ffebb5;
+  padding: 8px 14px;
+  text-decoration: none;
+  border-radius: 6px 6px 0 0;
+  font-size: 12px;
+}
+
+ul.tabs li a:hover {
+  background-color: #2f343a;
+}
+
+ul.tabs li a.active {
+  background-color: white;
+  color: #333;
+}
+
+.content {
+  background-color: white;
+  padding: 10px;
+  border-radius: 0 6px 6px 6px;
+}
+
+#content_2, #content_3 {
+  display: none;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.8);}
+  to {opacity: 1; transform: scale(1);}
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+}
+.close:hover {
+  color: red;
+}
+
+button.show-modal {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+button.show-modal:hover {
+  background-color: #218838;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Лаб 5</div>
+  <div class="burger" id="burger">
+    <div></div><div></div><div></div>
+  </div>
+  <ul id="menu">
+    <li><a href="#">Головна</a></li>
+    <li><a href="#">Про нас</a></li>
+    <li><a href="#">Контакти</a></li>
+  </ul>
+</nav>
+
+<div style="text-align:center; margin-top:20px;">
+  <button class="theme-toggle" id="themeBtn">Змінити тему</button>
+</div>
+
+<div id="tabbed_box_1" class="tabbed_box">
+  <h4>Browse Site <small>Select a Tab</small></h4>
+  <div class="tabbed_area">
+    <ul class="tabs">
+      <li><a href="javascript:tabSwitch('tab_1','content_1');" id="tab_1" class="active">Topics</a></li>
+      <li><a href="javascript:tabSwitch('tab_2','content_2');" id="tab_2">Archives</a></li>
+      <li><a href="javascript:tabSwitch('tab_3','content_3');" id="tab_3">Pages</a></li>
+    </ul>
+
+    <div id="content_1" class="content">
+      <ul>
+        <li><a href="#">HTML Techniques <small>4 Posts</small></a></li>
+        <li><a href="#">CSS Styling <small>32 Posts</small></a></li>
+        <li><a href="#">JS Scripts <small>12 Posts</small></a></li>
+      </ul>
+    </div>
+
+    <div id="content_2" class="content">
+      <ul>
+        <li><a href="#">December 2024 <small>6 Posts</small></a></li>
+        <li><a href="#">November 2024 <small>4 Posts</small></a></li>
+      </ul>
+    </div>
+
+    <div id="content_3" class="content">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<button class="show-modal" id="showModalBtn">Показати повідомлення</button>
+
+<div class="modal" id="myModal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h3>Модальне вікно</h3>
+    <p>Це приклад спливаючого повідомлення!</p>
+  </div>
+</div>
+
+<script>
+
+function tabSwitch(new_tab, new_content) {
+  document.getElementById('content_1').style.display = 'none';
+  document.getElementById('content_2').style.display = 'none';
+  document.getElementById('content_3').style.display = 'none';
+  document.getElementById(new_content).style.display = 'block';
+
+  document.getElementById('tab_1').className = '';
+  document.getElementById('tab_2').className = '';
+  document.getElementById('tab_3').className = '';
+  document.getElementById(new_tab).className = 'active';
+}
+
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+});
+
+const modal = document.getElementById('myModal');
+const showModalBtn = document.getElementById('showModalBtn');
+const closeModal = document.getElementById('closeModal');
+
+showModalBtn.onclick = () => modal.style.display = 'flex';
+closeModal.onclick = () => modal.style.display = 'none';
+window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+burger.addEventListener('click', () => {
+  menu.classList.toggle('active');
+});
+</script>
+</body>
+</html>
