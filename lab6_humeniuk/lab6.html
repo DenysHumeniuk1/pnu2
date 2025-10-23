@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Лабораторна робота — Перевірка полів за допомогою RegExp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.5;
+      background-color: #f8f8f8;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    input {
+      padding: 8px;
+      margin-bottom: 10px;
+      width: 260px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    label {
+      display: inline-block;
+      width: 180px;
+      margin-right: 10px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .field span {
+      position: absolute;
+      right: -220px;
+      top: 8px;
+      font-size: 14px;
+    }
+
+    .valid {
+      border-color: green;
+      color: green;
+    }
+
+    .invalid {
+      border-color: red;
+      color: red;
+    }
+
+    button {
+      padding: 8px 18px;
+      background-color: #1b7bd6;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #125c9a;
+    }
+
+    hr { margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+  <h2>Завдання 1 — Розбір e-mail за допомогою RegExp</h2>
+  <script>
+    let s = "dwbyu@mail.ua";
+    let r = /^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+)(\.[a-z0-9]+)*$/i;
+    let a = s.match(r);
+    for (let i = 0; i < a.length; i++) {
+      document.writeln("<hr> a[" + i + "] " + a[i]);
+    }
+  </script>
+
+  <hr><h2>Завдання 2 — Форма з валідацією</h2>
+
+  <form id="myForm" novalidate>
+    <div class="field">
+      <label for="email">E-mail:</label>
+      <input type="text" id="email">
+      <span id="emailMsg"></span>
+    </div>
+
+    <div class="field">
+      <label for="name">Ім’я та прізвище:</label>
+      <input type="text" id="name">
+      <span id="nameMsg"></span>
+    </div>
+
+    <div class="field">
+      <label for="login">Логін:</label>
+      <input type="text" id="login">
+      <span id="loginMsg"></span>
+    </div>
+
+    <div class="field">
+      <label for="password">Пароль:</label>
+      <input type="password" id="password">
+      <span id="passwordMsg"></span>
+    </div>
+
+    <div class="field">
+      <label for="index">Поштовий індекс:</label>
+      <input type="text" id="index">
+      <span id="indexMsg"></span>
+    </div>
+
+    <button type="button" onclick="validateForm()">Перевірити</button>
+  </form>
+
+  <script>
+    function validateForm() {
+      // Валідаційні вирази:
+      const emailR = /^[a-z0-9._%+-]+@pnu\.edu\.ua$/i;
+      const nameR = /^[A-ZА-Я][a-zа-я]+ [A-ZА-Я]+$/;
+      const loginR = /^[a-zA-Z0-9]+$/;
+      const passR = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[_\-!@#$%^&*])[A-Za-z\d_\-!@#$%^&*]{8,}$/;
+      const indexR = /^\d{5}$/;
+
+      // Отримання елементів
+      const fields = [
+        { id: "email", regex: emailR, msg: "E-mail повинен містити @pnu.edu.ua" },
+        { id: "name", regex: nameR, msg: "Ім’я Прізвище: Ім’я з великої, прізвище великими літерами" },
+        { id: "login", regex: loginR, msg: "Логін тільки латиниця" },
+        { id: "password", regex: passR, msg: "Мінімум 8 символів, літера, цифра, спецсимвол" },
+        { id: "index", regex: indexR, msg: "Індекс має складатися з 5 цифр" }
+      ];
+
+      fields.forEach(f => {
+        const input = document.getElementById(f.id);
+        const message = document.getElementById(f.id + "Msg");
+        if (f.regex.test(input.value.trim())) {
+          input.className = "valid";
+          message.textContent = "✔";
+          message.style.color = "green";
+        } else {
+          input.className = "invalid";
+          message.textContent = f.msg;
+          message.style.color = "red";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
