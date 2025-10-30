@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <title>Лабораторна робота 7 — Варіант 2</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.5; color: #111; }
+    h1 { font-size: 1.4rem; margin-bottom: 6px; }
+    section { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px; background: #fafafa; }
+    label { display:block; margin:6px 0 4px; }
+    input[type="text"], input[type="number"], textarea, select { width:100%; padding:8px; box-sizing:border-box; border:1px solid #ccc; border-radius:4px; }
+    button { margin-top:8px; padding:8px 12px; border-radius:6px; border:1px solid #888; background:#fff; cursor:pointer; }
+    .out { margin-top:8px; padding:8px; background:#fff; border:1px dashed #bbb; border-radius:4px; min-height:20px; white-space:pre-wrap; }
+    .row { display:flex; gap:12px; align-items:flex-end; }
+    .small { width:180px; }
+    code { background:#eee; padding:2px 4px; border-radius:4px; }
+    footer { font-size:0.9rem; color:#555; margin-top:16px; }
+  </style>
+</head>
+<body>
+  <h1>Лабораторна робота 7 — Варіант 2</h1>
+  <p>Реалізація завдань по роботі з рядками.</p>
+
+  <section id="task1">
+    <strong>Завдання 1.</strong>
+    <label>Введіть рядок:</label>
+    <input id="t1_input" type="text" placeholder="Тут ваш рядок">
+    <button onclick="task1()">Показати довжину</button>
+    <div class="out" id="t1_out"></div>
+  </section>
+
+  <section id="task2">
+    <strong>Завдання 2.</strong>
+    <label>Введіть рядок:</label>
+    <input id="t2_input" type="text" placeholder="Наприклад: Hello">
+    <div class="row">
+      <button onclick="task2Upper()">To UPPERCASE</button>
+      <button onclick="task2Lower()">To lowercase</button>
+    </div>
+    <div class="out" id="t2_out"></div>
+  </section>
+
+  <section id="task3">
+    <strong>Завдання 3.</strong>
+    <label>Рядок:</label>
+    <input id="t3_str" type="text" placeholder="hello world">
+    <label>Символ для пошуку (один символ):</label>
+    <input id="t3_char" type="text" maxlength="2" placeholder="o">
+    <button onclick="task3()">Знайти індекс першого входження</button>
+    <div class="out" id="t3_out"></div>
+  </section>
+
+  <section id="task4">
+    <strong>Завдання 4.</strong>
+    <label>Рядок:</label>
+    <input id="t4_str" type="text" placeholder="hello world">
+    <label>Символ для підрахунку:</label>
+    <input id="t4_char" type="text" maxlength="2" placeholder="o">
+    <button onclick="task4()">Порахувати входження</button>
+    <div class="out" id="t4_out"></div>
+  </section>
+
+  <section id="task5">
+    <strong>Завдання 5.</strong>
+    <label>Рядок (змінюються місцями кожні два символи):</label>
+    <input id="t5_str" type="text" placeholder="abcdef">
+    <button onclick="task5()">Поменяти місцями кожні 2 символи</button>
+    <div class="out" id="t5_out"></div>
+  </section>
+
+  <section id="task6">
+    <strong>Завдання 6.</strong>
+    <label>Рядок для перевірки на спам:</label>
+    <input id="t6_str" type="text" placeholder="Спеціальна пропозиція 100% безкоштовно!">
+    <button onclick="task6()">Перевірити на спам</button>
+    <div class="out" id="t6_out"></div>
+  </section>
+
+  <section id="task7">
+    <strong>Завдання 7.</strong>
+    <label>Рядок:</label>
+    <input id="t7_str" type="text" placeholder="Hello, world!">
+    <label>Максимальна довжина:</label>
+    <input id="t7_len" type="number" min="1" class="small" value="8">
+    <button onclick="task7()">Скоротити</button>
+    <div class="out" id="t7_out"></div>
+  </section>
+
+  <section id="task8">
+    <strong>Завдання 8</strong>
+    <p>Розбити рядок на слова, відсортувати їх за довжиною (від найкоротшого до найдовшого). Якщо однакова довжина — по алфавіту.</p>
+    <label>Вхід:</label>
+    <input id="t8_str" type="text" placeholder="apple banana cherry date">
+    <button onclick="task8()">Виконати</button>
+    <div class="out" id="t8_out"></div>
+  </section>
+
+  <section id="task9">
+    <strong>Завдання 9</strong>
+    <p>Знайти найчастіше повторювану букву в рядку (ігнорувати пробіли).</p>
+    <label>Вхід:</label>
+    <input id="t9_str" type="text" placeholder="apple pay">
+    <button onclick="task9()">Знайти найчастіше</button>
+    <div class="out" id="t9_out"></div>
+  </section>
+
+  <section id="task10">
+    <strong>Завдання 10</strong>
+    <p>Знайти найбільший спільний префікс для масиву рядків.</p>
+    <label>Введіть рядки (через кому):</label>
+    <input id="t10_str" type="text" placeholder="flower, flow, flight">
+    <button onclick="task10()">Знайти префікс</button>
+    <div class="out" id="t10_out"></div>
+  </section>
+
+<script>
+function el(id){ return document.getElementById(id); }
+function task1(){
+  const s = el('t1_input').value;
+  el('t1_out').textContent = 'Довжина: ' + s.length;
+}
+function task2Upper(){
+  const s = el('t2_input').value;
+  el('t2_out').textContent = s.toUpperCase();
+}
+function task2Lower(){
+  const s = el('t2_input').value;
+  el('t2_out').textContent = s.toLowerCase();
+}
+function task3(){
+  const s = el('t3_str').value;
+  const ch = el('t3_char').value;
+  if (!ch) { el('t3_out').textContent = 'Введіть символ.'; return; }
+  el('t3_out').textContent = 'Індекс першого входження: ' + s.indexOf(ch[0]);
+}
+function task4(){
+  const s = el('t4_str').value;
+  const ch = el('t4_char').value;
+  if (!ch) { el('t4_out').textContent = 'Введіть символ.'; return; }
+  const target = ch[0];
+  let count = 0;
+  for (let c of s) if (c === target) count++;
+  el('t4_out').textContent = 'Кількість входжень "'+target+'": ' + count;
+}
+function task5(){
+  const s = el('t5_str').value;
+  let arr = s.split('');
+  for (let i=0;i+1<arr.length;i+=2){
+    [arr[i], arr[i+1]] = [arr[i+1], arr[i]];
+  }
+  el('t5_out').textContent = arr.join('');
+}
+function task6(){
+  const s = el('t6_str').value.toLowerCase();
+  const spamList = ['100% безкоштовно','збільшення продажів','тільки сьогодні','не видаляйте'];
+  const found = spamList.some(p => s.includes(p));
+  el('t6_out').textContent = found ? 'Спам знайдено: true' : 'Спаму не знайдено: false';
+}
+function task7(){
+  const s = el('t7_str').value;
+  let maxLen = parseInt(el('t7_len').value, 10);
+  if (Number.isNaN(maxLen) || maxLen < 1) { el('t7_out').textContent = 'Невірна максимальна довжина.'; return; }
+  if (s.length <= maxLen) { el('t7_out').textContent = s; return; }
+  if (maxLen <= 3) {
+    el('t7_out').textContent = '.'.repeat(maxLen);
+    return;
+  }
+  const truncated = s.slice(0, maxLen - 3) + '...';
+  el('t7_out').textContent = truncated;
+}
+function task8(){
+  const s = el('t8_str').value.trim();
+  if (!s) { el('t8_out').textContent = ''; return; }
+  const words = s.split(/\s+/);
+  words.sort((a,b) => {
+    if (a.length !== b.length) return a.length - b.length;
+    return a.localeCompare(b, undefined, {sensitivity:'base'});
+  });
+  el('t8_out').textContent = words.join(' ');
+}
+function task9(){
+  const s = el('t9_str').value.toLowerCase();
+  const freq = {};
+  for (let ch of s){
+    if (ch === ' ' || ch === '\t' || ch === '\n') continue;
+    freq[ch] = (freq[ch]||0) + 1;
+  }
+  let maxCount = 0, maxChar = '';
+  for (let k in freq){
+    if (freq[k] > maxCount){
+      maxCount = freq[k];
+      maxChar = k;
+    }
+  }
+  el('t9_out').textContent = maxChar ? ('Найчастіша буква: "'+maxChar+'", кількість: '+maxCount) : 'Букв не знайдено';
+}
+function task10(){
+  const raw = el('t10_str').value;
+  if (!raw.trim()) { el('t10_out').textContent = ''; return; }
+  const arr = raw.split(',').map(s => s.trim()).filter(s => s.length>0);
+  if (arr.length === 0) { el('t10_out').textContent = ''; return; }
+  let prefix = '';
+  let minLen = Math.min(...arr.map(s=>s.length));
+  for (let i=0;i<minLen;i++){
+    const ch = arr[0][i];
+    if (arr.every(s => s[i] === ch)) prefix += ch;
+    else break;
+  }
+  el('t10_out').textContent = prefix ? ('Найбільший спільний префікс: "'+prefix+'"') : 'Спільного префіксу немає';
+}
+</script>
+</body>
+</html>
