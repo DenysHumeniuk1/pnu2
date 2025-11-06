@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Лабораторна робота 8 — Варіант 2</title>
+  <style>
+    body{font-family: Arial, sans-serif;max-width:1000px;margin:20px auto;padding:0 16px;color:#111}
+    h1,h2{color:#0b5}
+    section{border:1px solid #ddd;padding:12px;border-radius:8px;margin-bottom:14px;}
+    label{display:block;margin:8px 0 4px}
+    input[type=text], input[type=number], textarea, select{width:100%;padding:6px;border:1px solid #ccc;border-radius:4px}
+    .row{display:flex;gap:8px}
+    .row > *{flex:1}
+    button{margin-top:8px;padding:8px 12px;border-radius:6px;border:0;background:#0b5;color:white;cursor:pointer}
+    button.secondary{background:#888}
+    .output{background:#f9f9f9;border:1px dashed #ccc;padding:8px;margin-top:10px;border-radius:6px;min-height:36px}
+    .small{font-size:0.9em;color:#555}
+    .inline{display:inline-block}
+  </style>
+</head>
+<body>
+  <h1>Лабораторна робота 8 — Робота з об'єктами, Date, класи (Варіант 2)</h1>
+
+  <section id="task1">
+    <h2>Завдання 1 — Об'єкт часу</h2>
+    <p>Створимо об'єкт часу (години, хвилини, секунди), вивід поточного часу та додавання секунд.</p>
+    <div class="row">
+      <div>
+        <label>Поточний час</label>
+        <div class="output" id="timeDisplay">(натисніть «Показати час»)</div>
+        <button id="showTimeBtn">Показати час</button>
+      </div>
+      <div>
+        <label>Додати секунд (ціле число)</label>
+        <input type="number" id="addSecondsInput" value="30">
+        <button id="addSecondsBtn">Додати секунди</button>
+        <div class="output" id="timeAfterAdd">(результат)</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="task2">
+    <h2>Завдання 2 — Робота з датою (Date)</h2>
+    <h3>2.1 Виведення поточної дати, дня тижня і часу</h3>
+    <p class="small">Натисніть кнопку «Виконати»</p>
+    <button id="task2_1_btn">Виконати</button>
+    <div class="output" id="task2_1_out">(тут буде дата)</div>
+
+    <h3>2.2 Останній день місяця за роком і номером місяця</h3>
+    <label>Рік</label>
+    <input type="number" id="monthYear" value="2025">
+    <label>Місяць (1-12)</label>
+    <input type="number" id="monthNumber" value="10">
+    <button id="lastDayBtn">Показати останній день</button>
+    <div class="output" id="lastDayOut">(результат)</div>
+
+    <h3>2.3 Скільки секунд пройшло сьогодні і скільки до початку наступного дня</h3>
+    <button id="secPassedBtn">Показати секунди</button>
+    <div class="output" id="secPassedOut">(результат)</div>
+  </section>
+
+  <section id="task3">
+    <h2>Завдання 3 — Клас Car</h2>
+    <label>Бренд</label>
+    <input type="text" id="carBrand" value="Toyota">
+    <label>Модель</label>
+    <input type="text" id="carModel" value="Camry">
+    <label>Рік</label>
+    <input type="number" id="carYear" value="2020">
+    <button id="showCarBtn">Показати інформацію</button>
+    <button class="secondary" id="clearCarBtn">Очистити поля</button>
+    <div class="output" id="carOut"></div>
+  </section>
+
+  <section id="task4">
+    <h2>Завдання 4 — ElectricCar (успадкування)</h2>
+    <label>Бренд</label>
+    <input type="text" id="ecBrand" value="Tesla">
+    <label>Модель</label>
+    <input type="text" id="ecModel" value="Model 3">
+    <label>Рік</label>
+    <input type="number" id="ecYear" value="2022">
+    <label>Батарея (kWh)</label>
+    <input type="number" id="ecBattery" value="75">
+    <button id="showEcBtn">Показати та зарядити</button>
+    <button class="secondary" id="clearEcBtn">Очистити поля</button>
+    <div class="output" id="ecOut"></div>
+  </section>
+
+  <section id="task5">
+    <h2>Завдання 5 — Статичний метод</h2>
+    <label>Число A</label>
+    <input type="number" id="mA" value="5">
+    <label>Число B</label>
+    <input type="number" id="mB" value="7">
+    <button id="mathAddBtn">Додати (MathHelper.add)</button>
+    <div class="output" id="mathOut"></div>
+  </section>
+
+  <section id="task6">
+    <h2>Завдання 6 — Варіант 2: Student</h2>
+    <p>Створити студента з полями: ім'я, група, оцінки (comma-separated). Показати середній бал, порівняння студентів статичним методом.</p>
+    <label>Ім'я</label>
+    <input type="text" id="stuName" placeholder="Петро">
+    <label>Група</label>
+    <input type="text" id="stuGroup" placeholder="ІП-11">
+    <label>Оцінки (через кому, напр. 5,4,3,4)</label>
+    <input type="text" id="stuGrades" placeholder="5,4,5,3">
+    <div class="row">
+      <button id="addStudentBtn">Додати студента</button>
+      <button class="secondary" id="clearStudentFields">Очистити поля</button>
+    </div>
+    <p class="small">Список студентів (натисніть на ім'я, щоб видалити):</p>
+    <div class="output" id="studentsList" style="min-height:50px"></div>
+    <div style="margin-top:8px">
+      <button id="showAllInfoBtn">Показати інформацію про всіх</button>
+      <button class="secondary" id="clearAllBtn">Очистити список</button>
+    </div>
+    <div class="output" id="studentsInfoOut">(тут інформація про студентів)</div>
+  </section>
+
+  <script>
+    // ---------------- Task 1 ----------------
+    const timeObj = { hours:0, minutes:0, seconds:0 };
+    function updateTimeObjFromDate(d){ timeObj.hours=d.getHours(); timeObj.minutes=d.getMinutes(); timeObj.seconds=d.getSeconds(); }
+    function formatTime(obj){
+      const hh=String(obj.hours).padStart(2,'0');
+      const mm=String(obj.minutes).padStart(2,'0');
+      const ss=String(obj.seconds).padStart(2,'0');
+      return `${hh}:${mm}:${ss}`;
+    }
+    document.getElementById('showTimeBtn').addEventListener('click', ()=>{
+      const d=new Date(); updateTimeObjFromDate(d);
+      document.getElementById('timeDisplay').textContent = formatTime(timeObj);
+    });
+
+    document.getElementById('addSecondsBtn').addEventListener('click', ()=>{
+      const add = parseInt(document.getElementById('addSecondsInput').value,10) || 0;
+      const now=new Date(); now.setSeconds(now.getSeconds()+add);
+      updateTimeObjFromDate(now);
+      document.getElementById('timeAfterAdd').textContent = formatTime(timeObj);
+    });
+
+    // ---------------- Task 2 ----------------
+    document.getElementById('task2_1_btn').addEventListener('click', ()=>{
+      const d=new Date();
+      const dayNames=['неділя','понеділок','вівторок','середа','четвер','пʼятниця','субота'];
+      const day = d.getDate();
+      const monthNames=['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
+      const month = monthNames[d.getMonth()];
+      const year = d.getFullYear();
+      const dayName = dayNames[d.getDay()];
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      document.getElementById('task2_1_out').innerHTML = `Дата: ${day} ${month} ${year} року<br>День тижня: ${dayName}<br>Час: ${hh}:${mm}`;
+    });
+
+    document.getElementById('lastDayBtn').addEventListener('click', ()=>{
+      const y = parseInt(document.getElementById('monthYear').value,10);
+      const m = parseInt(document.getElementById('monthNumber').value,10);
+      if(isNaN(y) || isNaN(m) || m<1 || m>12){ document.getElementById('lastDayOut').textContent='Помилка: введіть коректний рік і місяць (1-12).'; return; }
+      const last = new Date(y, m, 0).getDate();
+      document.getElementById('lastDayOut').textContent = `Останній день ${m} місяця у ${y} році: ${last}`;
+    });
+
+    document.getElementById('secPassedBtn').addEventListener('click', ()=>{
+      const now=new Date();
+      const startOfDay=new Date(now.getFullYear(), now.getMonth(), now.getDate(),0,0,0);
+      const nextDay=new Date(now.getFullYear(), now.getMonth(), now.getDate()+1,0,0,0);
+      const passed = Math.floor((now - startOfDay)/1000);
+      const toNext = Math.floor((nextDay - now)/1000);
+      document.getElementById('secPassedOut').innerHTML = `Секунд, що пройшли від початку дня: ${passed}<br>Секунд до початку наступного дня: ${toNext}`;
+    });
+
+    // ---------------- Task 3 & 4 ----------------
+    class Car {
+      constructor(brand, model, year){ this.brand=brand; this.model=model; this.year=year; }
+      info(){ return `Авто: ${this.brand} ${this.model}, ${this.year} року.`; }
+    }
+    class ElectricCar extends Car {
+      constructor(brand, model, year, battery){ super(brand, model, year); this.battery=battery; }
+      charge(){ return `${this.brand} ${this.model} заряджається... Батарея: ${this.battery} kWh`; }
+    }
+
+    document.getElementById('showCarBtn').addEventListener('click', ()=>{
+      const b=document.getElementById('carBrand').value.trim();
+      const m=document.getElementById('carModel').value.trim();
+      const y=parseInt(document.getElementById('carYear').value,10) || 0;
+      const c=new Car(b||'Не вказано', m||'Не вказано', y);
+      document.getElementById('carOut').textContent = c.info();
+    });
+    document.getElementById('clearCarBtn').addEventListener('click', ()=>{
+      document.getElementById('carBrand').value=''; document.getElementById('carModel').value=''; document.getElementById('carYear').value=''; document.getElementById('carOut').textContent='';
+    });
+
+    document.getElementById('showEcBtn').addEventListener('click', ()=>{
+      const b=document.getElementById('ecBrand').value.trim();
+      const m=document.getElementById('ecModel').value.trim();
+      const y=parseInt(document.getElementById('ecYear').value,10) || 0;
+      const bat=parseFloat(document.getElementById('ecBattery').value) || 0;
+      const e=new ElectricCar(b||'Не вказано', m||'Не вказано', y, bat);
+      document.getElementById('ecOut').innerHTML = e.info() + '<br>' + e.charge();
+    });
+    document.getElementById('clearEcBtn').addEventListener('click', ()=>{
+      document.getElementById('ecBrand').value=''; document.getElementById('ecModel').value=''; document.getElementById('ecYear').value=''; document.getElementById('ecBattery').value=''; document.getElementById('ecOut').textContent='';
+    });
+
+    // ---------------- Task 5 ----------------
+    class MathHelper{ static add(a,b){ return a+b; } }
+    document.getElementById('mathAddBtn').addEventListener('click', ()=>{
+      const a = parseFloat(document.getElementById('mA').value) || 0;
+      const b = parseFloat(document.getElementById('mB').value) || 0;
+      const res = MathHelper.add(a,b);
+      document.getElementById('mathOut').textContent = `${a} + ${b} = ${res}`;
+    });
+
+    // ---------------- Task 6 ----------------
+    class Student {
+      constructor(name, group, grades){
+        this.name = name;
+        this.group = group;
+        this.grades = Array.isArray(grades) ? grades : [];
+      }
+      getAverageGrade(){
+        if(!this.grades.length) return 0;
+        const sum = this.grades.reduce((s,g)=>s+g,0);
+        return +(sum/this.grades.length).toFixed(2);
+      }
+      getInfo(){
+        return `Ім'я: ${this.name}, Група: ${this.group}, Оцінки: [${this.grades.join(', ')}], Середній: ${this.getAverageGrade()}`;
+      }
+      static compareByGrade(s1, s2){
+        return s2.getAverageGrade() - s1.getAverageGrade();
+      }
+    }
+
+    const students = [];
+    const studentsListDiv = document.getElementById('studentsList');
+    const studentsInfoOut = document.getElementById('studentsInfoOut');
+
+    function renderStudents(){
+      studentsListDiv.innerHTML = '';
+      if(students.length===0){ studentsListDiv.textContent='Список порожній'; return; }
+      students.forEach((s, idx)=>{
+        const btn = document.createElement('button');
+        btn.textContent = `${s.name} (${s.group})`;
+        btn.title = 'Натисніть, щоб видалити цього студента';
+        btn.style.margin='4px';
+        btn.addEventListener('click', ()=>{ if(confirm(`Видалити студента ${s.name}?`)){ students.splice(idx,1); renderStudents(); showAllStudentsInfo(); } });
+        studentsListDiv.appendChild(btn);
+      });
+    }
+
+    document.getElementById('addStudentBtn').addEventListener('click', ()=>{
+      const name = document.getElementById('stuName').value.trim() || 'Без імені';
+      const group = document.getElementById('stuGroup').value.trim() || '---';
+      const gradesRaw = document.getElementById('stuGrades').value.trim();
+      const grades = gradesRaw === '' ? [] : gradesRaw.split(',').map(x=>parseFloat(x)).filter(x=>!isNaN(x));
+      const s = new Student(name, group, grades);
+      students.push(s);
+      renderStudents();
+      showAllStudentsInfo();
+    });
+    document.getElementById('clearStudentFields').addEventListener('click', ()=>{
+      document.getElementById('stuName').value=''; document.getElementById('stuGroup').value=''; document.getElementById('stuGrades').value='';
+    });
+    document.getElementById('showAllInfoBtn').addEventListener('click', showAllStudentsInfo);
+    document.getElementById('clearAllBtn').addEventListener('click', ()=>{ if(confirm('Очистити весь список студентів?')){ students.length=0; renderStudents(); studentsInfoOut.textContent=''; } });
+
+    function showAllStudentsInfo(){
+      if(students.length===0){ studentsInfoOut.textContent='Нема студентів'; return; }
+      const lines = students.map(s=>s.getInfo());
+      const sorted = [...students].sort(Student.compareByGrade);
+      const best = sorted[0];
+      let out = lines.join('\n');
+      out += `\n\nСортування за середнім (найкращий перший):\n` + sorted.map(s=>`${s.name} — ${s.getAverageGrade()}`).join('\n');
+      out += `\n\nНайкращий студент: ${best.name} (${best.getAverageGrade()})`;
+      studentsInfoOut.textContent = out;
+    }
+
+    students.push(new Student('Олена', 'ІП-11', [5,4,5,5]));
+    students.push(new Student('Ігор', 'ІП-11', [4,3,4,5]));
+    students.push(new Student('Марія', 'ІП-12', [5,5,5,5]));
+    renderStudents();
+    showAllStudentsInfo();
+
+  </script>
+</body>
+</html>
