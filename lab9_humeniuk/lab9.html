@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анімований логотип ІПЗ</title>
+<style>
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #001f3f, #003366);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  canvas {
+    border: 2px solid #00bfff;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  #text {
+    font-size: 32px;
+    margin-top: 15px;
+    letter-spacing: 3px;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    border: none;
+    background: #00bfff;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #0099cc;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="logo" width="400" height="300"></canvas>
+<div id="text">ІНЖЕНЕРІЯ ПРОГРАМНОГО ЗАБЕЗПЕЧЕННЯ</div>
+<button id="toggle">Запустити / Зупинити</button>
+
+<script>
+const canvas = document.getElementById("logo");
+const ctx = canvas.getContext("2d");
+let running = false;
+let angle = 0;
+let size = 40;
+let growing = true;
+let balls = [];
+
+for (let i = 0; i < 5; i++) {
+  balls.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: 10 + Math.random() * 20,
+    dx: 2 + Math.random() * 2,
+    dy: 2 + Math.random() * 2,
+    color: `hsl(${Math.random() * 360}, 100%, 60%)`
+  });
+}
+
+const text = document.getElementById("text");
+const button = document.getElementById("toggle");
+
+button.onclick = () => {
+  running = !running;
+  text.style.opacity = running ? "1" : "0";
+  if (running) animate();
+};
+
+function animate() {
+  if (!running) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Обертання квадрата
+  ctx.save();
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(angle);
+  ctx.fillStyle = "#00bfff";
+  ctx.fillRect(-size / 2, -size / 2, size, size);
+  ctx.restore();
+
+  angle += 0.05;
+  if (growing) size += 0.5;
+  else size -= 0.5;
+  if (size > 70 || size < 30) growing = !growing;
+
+  // Кулі, що рухаються
+  for (let b of balls) {
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    ctx.fillStyle = b.color;
+    ctx.fill();
+
+    b.x += b.dx;
+    b.y += b.dy;
+
+    if (b.x + b.r > canvas.width || b.x - b.r < 0) b.dx *= -1;
+    if (b.y + b.r > canvas.height || b.y - b.r < 0) b.dy *= -1;
+  }
+
+  requestAnimationFrame(animate);
+}
+</script>
+
+</body>
+</html>
