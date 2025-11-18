@@ -141,7 +141,6 @@
         const message = document.getElementById(f.id + "Msg");
         if (f.regex.test(input.value.trim())) {
           input.className = "valid";
-          message.textContent = "✔";
           message.style.color = "green";
         } else {
           input.className = "invalid";
@@ -153,3 +152,4 @@
   </script>
 </body>
 </html>
+
