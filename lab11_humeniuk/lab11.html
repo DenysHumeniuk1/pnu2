@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <title>Лабораторна робота 11 — jQuery, варіант 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.5; padding: 20px; }
+    h2 { margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    .panel { border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 6px; }
+    button { margin: 3px; }
+    .demo-box {
+      display: inline-block;
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid #888;
+      background: #f8f8f8;
+    }
+    .highlight { background: #ffe58a !important; }
+    .modified { background: #d1ffd1 !important; }
+    ul.demo-list { list-style: none; padding: 0; }
+    ul.demo-list li { padding: 3px 6px; margin: 2px 0; border: 1px dashed #aaa; }
+    .small-img { width: 80px; height: auto; }
+    pre { background: #f0f0f0; padding: 8px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <h1>Лабораторна робота 11 — jQuery (варіант 2)</h1>
+
+  <h2>Завдання 1. Методи .html(), .css(), .val(), .attr(), .removeAttr()</h2>
+
+  <div class="panel">
+    <h3>.html()</h3>
+    <div id="html-target" class="demo-box">Початковий текст</div><br>
+    <button id="btn-html-change">Змінити HTML</button>
+  </div>
+
+  <div class="panel">
+    <h3>.css()</h3>
+    <div id="css-box" class="demo-box">Змінюваний стиль</div><br>
+    <button id="btn-css-color">Зробити червоним</button>
+    <button id="btn-css-reset">Скинути стиль</button>
+  </div>
+
+  <div class="panel">
+    <h3>.val()</h3>
+    <input id="val-input" type="text" placeholder="Введи текст">
+    <button id="btn-val-read">Показати значення</button>
+    <button id="btn-val-set">Встановити значення "Hello"</button>
+    <p id="val-output"></p>
+  </div>
+
+  <div class="panel">
+    <h3>.attr() та .removeAttr()</h3>
+    <img id="attr-img" src="3.jpg" alt="Зображення" class="small-img">
+    <p id="attr-info"></p>
+    <button id="btn-attr-read">Прочитати атрибут alt</button>
+    <button id="btn-attr-set-one">Задати title через attr(name, value)</button>
+    <button id="btn-attr-set-many">Задати кілька атрибутів через attr(obj)</button>
+    <button id="btn-attr-func">Змінити title через attr(name, func)</button>
+    <button id="btn-remove-alt">removeAttr("alt")</button>
+  </div>
+
+  <h2>Завдання 2 (варіант 2). .appendTo(), .replaceWith(), .width(function), .outerWidth()</h2>
+
+  <div class="panel">
+    <h3>.appendTo()</h3>
+    <div id="append-src" class="demo-box">Джерело</div>
+    <div id="append-dest1" class="demo-box">Приймач 1</div>
+    <div id="append-dest2" class="demo-box">Приймач 2</div><br>
+    <button id="btn-appendto-1">appendTo() у Приймач 1</button>
+    <button id="btn-appendto-2">appendTo() у Приймач 2</button>
+  </div>
+
+  <div class="panel">
+    <h3>.replaceWith()</h3>
+    <div id="replace-wrapper">
+      <div id="replace-target" class="demo-box">Елемент для заміни</div>
+    </div>
+    <button id="btn-replacewith">Замінити на новий елемент</button>
+  </div>
+
+  <div class="panel">
+    <h3>.width(function) та .outerWidth()</h3>
+    <div id="size-box" class="demo-box" style="width:150px; padding:10px; border:3px solid #888;">
+      Блок із шириною
+    </div>
+    <p id="size-info"></p>
+    <button id="btn-width-inc">Збільшити ширину на 20px (width(function))</button>
+    <button id="btn-outerwidth-show">Показати outerWidth()</button>
+  </div>
+
+  <h2>Завдання 3 (варіант 2). .addBack(), .has(), .children(), .last(), .parents()</h2>
+
+  <div class="panel">
+    <div id="tree" class="demo-box">
+      <ul class="level1 demo-list">
+        <li>Елемент 1</li>
+        <li class="with-span">Елемент 2 <span class="mark">мітка</span></li>
+        <li>Елемент 3
+          <ul class="level2 demo-list">
+            <li>Під-елемент 3.1</li>
+            <li>Під-елемент 3.2</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <p>Класи та підсвічування демонструють роботу методів.</p>
+    <button id="btn-has-span">.has(".mark") — підсвітити елементи з &lt;span class="mark"&gt;</button><br>
+    <button id="btn-children">.children() для .level1 — підсвітити дітей</button><br>
+    <button id="btn-last">.last() — підсвітити останній елемент кожного списку</button><br>
+    <button id="btn-parents">.parents() для .mark — підсвітити всіх батьків</button><br>
+    <button id="btn-addback">.addBack() — знайти &lt;ul&gt; і їх нащадків, потім додати назад</button>
+  </div>
+
+  <h2>Завдання 4. .filter() — стилі та текст "modify"</h2>
+
+  <div class="panel">
+    <h3>Елементи з класом special</h3>
+    <div class="demo-box special">Блок 1 (special)</div>
+    <div class="demo-box">Блок 2</div>
+    <div class="demo-box special">Блок 3 (special)</div><br>
+    <button id="btn-filter-class">Змінити всі .special (filter)</button>
+  </div>
+
+  <div class="panel">
+    <h3>Кожен третій &lt;li&gt;</h3>
+    <ul id="filter-list" class="demo-list">
+      <li>Елемент 1</li>
+      <li>Елемент 2</li>
+      <li>Елемент 3</li>
+      <li>Елемент 4</li>
+      <li>Елемент 5</li>
+      <li>Елемент 6</li>
+      <li>Елемент 7</li>
+      <li>Елемент 8</li>
+      <li>Елемент 9</li>
+    </ul>
+    <button id="btn-filter-third">Змінити кожен третій li</button>
+  </div>
+
+  <h2>Завдання 5 (варіант 2). $.data(), $.extend(), $.fn.extend(), $.globalEval()</h2>
+
+  <div class="panel">
+    <h3>$.data()</h3>
+    <div id="data-box" class="demo-box">Натисни кнопку кілька разів</div>
+    <p id="data-info"></p>
+    <button id="btn-data-count">Лічильник кліків через $.data()</button>
+  </div>
+
+  <div class="panel">
+    <h3>$.extend()</h3>
+    <button id="btn-extend-demo">Показати результат $.extend()</button>
+    <pre id="extend-output"></pre>
+  </div>
+
+  <div class="panel">
+    <h3>$.fn.extend() — власний плагін highlight()</h3>
+    <div id="plugin-demo" class="demo-box">Плагін highlight() змінить фон</div>
+    <button id="btn-plugin-highlight">Викликати $("#plugin-demo").highlight()</button>
+  </div>
+
+  <div class="panel">
+    <h3>$.globalEval()</h3>
+    <p id="globaleval-info">Глобальна змінна ще не створена.</p>
+    <button id="btn-global-eval">Виконати $.globalEval()</button>
+  </div>
+
+  <script>
+    $(function () {
+      //Завдання 1
+      $("#btn-html-change").on("click", function () {
+        $("#html-target").html("<strong>HTML змінено за допомогою .html()</strong>");
+      });
+
+      $("#btn-css-color").on("click", function () {
+        $("#css-box").css({
+          color: "white",
+          backgroundColor: "red",
+          borderColor: "darkred"
+        });
+      });
+
+      $("#btn-css-reset").on("click", function () {
+        $("#css-box").css({
+          color: "",
+          backgroundColor: "",
+          borderColor: "#888"
+        });
+      });
+
+      $("#btn-val-read").on("click", function () {
+        var v = $("#val-input").val();
+        $("#val-output").text("Значення інпуту: " + v);
+      });
+
+      $("#btn-val-set").on("click", function () {
+        $("#val-input").val("Hello");
+      });
+
+      $("#btn-attr-read").on("click", function () {
+        var altText = $("#attr-img").attr("alt");
+        $("#attr-info").text('Атрибут alt: "' + altText + '"');
+      });
+
+      $("#btn-attr-set-one").on("click", function () {
+        $("#attr-img").attr("title", "Заголовок через attr(name, value)");
+        $("#attr-info").text('Атрибут title встановлено через attr(name, value)');
+      });
+
+      $("#btn-attr-set-many").on("click", function () {
+        $("#attr-img").attr({
+          alt: "Новий alt",
+          title: "Новий title",
+          "data-info": "кілька атрибутів"
+        });
+        $("#attr-info").text("Кілька атрибутів встановлено через attr(obj)");
+      });
+
+      $("#btn-attr-func").on("click", function () {
+        $("#attr-img").attr("title", function (i, oldValue) {
+          return (oldValue || "") + " [змінено функцією]";
+        });
+        $("#attr-info").text('title змінено через attr(name, function)');
+      });
+
+      $("#btn-remove-alt").on("click", function () {
+        $("#attr-img").removeAttr("alt");
+        $("#attr-info").text('Атрибут alt видалено через removeAttr("alt")');
+      });
+
+      //Завдання 2
+      $("#btn-appendto-1").on("click", function () {
+        $("#append-src").appendTo("#append-dest1");
+      });
+
+      $("#btn-appendto-2").on("click", function () {
+        $("#append-src").appendTo("#append-dest2");
+      });
+
+      $("#btn-replacewith").on("click", function () {
+        $("#replace-target").replaceWith(
+          '<div class="demo-box highlight">Новий елемент після replaceWith()</div>'
+        );
+      });
+
+      $("#btn-width-inc").on("click", function () {
+        $("#size-box").width(function (index, currentWidth) {
+          return currentWidth + 20;
+        });
+      });
+
+      $("#btn-outerwidth-show").on("click", function () {
+        var w = $("#size-box").outerWidth();
+        $("#size-info").text("outerWidth() = " + w + " px");
+      });
+
+      //Завдання 3
+      function clearHighlights() {
+        $("#tree *").removeClass("highlight");
+      }
+
+      $("#btn-has-span").on("click", function () {
+        clearHighlights();
+        $("#tree li").has("span.mark").addClass("highlight");
+      });
+
+      $("#btn-children").on("click", function () {
+        clearHighlights();
+        $(".level1").children().addClass("highlight");
+      });
+
+      $("#btn-last").on("click", function () {
+        clearHighlights();
+        $("#tree ul").each(function () {
+          $(this).children("li").last().addClass("highlight");
+        });
+      });
+
+      $("#btn-parents").on("click", function () {
+        clearHighlights();
+        $(".mark").parents().addClass("highlight");
+      });
+
+      $("#btn-addback").on("click", function () {
+        clearHighlights();
+        $("#tree ul").find("li").addBack().addClass("highlight");
+      });
+
+      //Завдання 4
+      $("#btn-filter-class").on("click", function () {
+        $(".demo-box").filter(".special").each(function () {
+          $(this)
+            .addClass("modified")
+            .text($(this).text() + " modify");
+        });
+      });
+
+      $("#btn-filter-third").on("click", function () {
+        $("#filter-list li").filter(":nth-child(3n)").each(function () {
+          $(this)
+            .addClass("modified")
+            .text($(this).text() + " modify");
+        });
+      });
+
+      //Завдання 5
+      $("#btn-data-count").on("click", function () {
+        var el = $("#data-box")[0];
+        var count = $.data(el, "clicks") || 0;
+        count++;
+        $.data(el, "clicks", count);
+        $("#data-info").text("Кількість кліків (через $.data): " + count);
+      });
+
+      $("#btn-extend-demo").on("click", function () {
+        var obj1 = { a: 1, b: 2 };
+        var obj2 = { b: 10, c: 3 };
+        var merged = $.extend({}, obj1, obj2);
+        $("#extend-output").text(
+          "obj1 = " + JSON.stringify(obj1) + "\n" +
+          "obj2 = " + JSON.stringify(obj2) + "\n" +
+          "merged = $.extend({}, obj1, obj2) = " + JSON.stringify(merged)
+        );
+      });
+
+      $.fn.extend({
+        highlight: function () {
+          return this.css({
+            backgroundColor: "yellow",
+            borderColor: "orange"
+          });
+        }
+      });
+
+      $("#btn-plugin-highlight").on("click", function () {
+        $("#plugin-demo").highlight();
+      });
+
+      $("#btn-global-eval").on("click", function () {
+        $.globalEval('window.globalFromEval = "Глобальна змінна створена через $.globalEval()";');
+        $("#globaleval-info").text(window.globalFromEval);
+      });
+    });
+  </script>
+</body>
+</html>
