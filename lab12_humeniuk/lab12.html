@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <title>Лабораторна робота 12 — jQuery</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1, h2 { text-align: center; }
+    .task {
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px auto;
+      max-width: 900px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    button {
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #e9f1ff;
+    }
+    button:hover { background: #d8e7ff; }
+    .demo-area {
+      border: 1px dashed #aaa;
+      padding: 15px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafafa;
+      border-radius: 6px;
+    }
+    .logo-wrapper {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .logo-box {
+      position: relative;
+      width: 360px;
+      padding: 18px 20px;
+      background: #1f1f1f;
+      color: #fff;
+      border-radius: 14px;
+      opacity: 0;
+      top: 30px;
+      text-align: center;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+    .logo-main {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 1.3;
+      white-space: nowrap;
+    }
+    .logo-sub {
+      font-size: 14px;
+      color: #ccc;
+      margin-top: 4px;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .logo-status {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      text-align: center;
+      min-height: 1.2em;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Лабораторна робота 12</h1>
+<h3 style="text-align:center; margin-top:-10px;">Варіант 2</h3>
+
+<section class="task">
+  <h2>Завдання 1</h2>
+
+  <div class="controls">
+    <button id="btnFadeOutMain">fadeOut()</button>
+    <button id="btnFadeIn">fadeIn()</button>
+    <button id="btnFadeOutDelayed">delay() + fadeOut()</button>
+    <button id="btnSlideToggle">slideToggle()</button>
+    <button id="btnStop">stop()</button>
+    <button id="btnReset">Скинути</button>
+  </div>
+
+  <div class="demo-area">
+    <div id="boxVariant2" style="
+      width:120px; height:120px; background:#4a90e2;
+      border-radius:10px; display:flex;
+      align-items:center; justify-content:center; color:white; font-weight:bold;">
+      BOX
+    </div>
+  </div>
+
+  <div id="infoTask1" style="margin-top:10px; color:#555;"></div>
+</section>
+
+<section class="task">
+  <h2>Завдання 2</h2>
+
+  <div class="controls">
+    <button id="btnStartLogo">Запустити</button>
+    <button id="btnResetLogo">Скинути</button>
+  </div>
+
+  <div class="demo-area logo-wrapper">
+    <div class="logo-box" id="logoBox">
+      <div class="logo-main">121 — Software Engineering</div>
+      <div class="logo-sub">Кафедра інформаційних технологій</div>
+    </div>
+  </div>
+
+  <div class="logo-status" id="logoStatus"></div>
+</section>
+
+<script>
+$(function () {
+
+  const $box = $("#boxVariant2");
+  const $info = $("#infoTask1");
+
+  function setInfo(t) { $info.text(t); }
+
+  $("#btnFadeOutMain").click(function () {
+    setInfo("fadeOut()");
+    $box.stop(true,true).fadeOut(800);
+  });
+  $("#btnFadeIn").click(function () {
+    setInfo("fadeIn()");
+    $box.stop(true,true).fadeIn(800);
+  });
+  $("#btnFadeOutDelayed").click(function () {
+    setInfo("delay() + fadeOut()");
+    $box.stop(true,true).delay(500).fadeOut(800);
+  });
+  $("#btnSlideToggle").click(function () {
+    setInfo("slideToggle()");
+    $box.slideToggle(500);
+  });
+  $("#btnStop").click(function () {
+    setInfo("stop()");
+    $box.stop(true,true);
+  });
+  $("#btnReset").click(function () {
+    $box.stop(true,true).show();
+    setInfo("");
+  });
+
+
+  const $logo = $("#logoBox");
+  const $status = $("#logoStatus");
+
+  function resetLogo() {
+    $logo.stop(true,true).css({
+      opacity: 0,
+      top: "30px",
+      width: "360px",
+      letterSpacing: "1px"
+    });
+    $status.text("");
+  }
+
+  resetLogo();
+
+  $("#btnStartLogo").click(function () {
+    resetLogo();
+    $status.text("Поява...");
+    $logo.animate(
+      { opacity: 1, top: "0px" },
+      900,
+      "swing",
+      function () {
+        $status.text("Розширення...");
+        $logo.animate(
+          { width: "410px", letterSpacing: "3px" },
+          {
+            duration: 900,
+            easing: "linear",
+            queue: true,
+            complete: function () {
+              $status.text("Готово");
+            }
+          }
+        );
+      }
+    );
+  });
+
+  $("#btnResetLogo").click(resetLogo);
+
+});
+</script>
+
+</body>
+</html>
